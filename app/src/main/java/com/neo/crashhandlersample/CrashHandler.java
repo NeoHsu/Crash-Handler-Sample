@@ -12,11 +12,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -182,27 +179,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (!dir.exists()) {
           dir.mkdirs();
         }
-
-        File inFile = new File(dir, "setting.json");
-        StringBuilder data = new StringBuilder();
-        BufferedReader reader = null;
-        try {
-          reader = new BufferedReader(new InputStreamReader(new FileInputStream(inFile), "utf-8"));
-          String line;
-          while ((line = reader.readLine()) != null) {
-            data.append(line);
-          }
-        } catch (Exception e) {
-        } finally {
-          try {
-            reader.close();
-          } catch (Exception e) {
-          }
-        }
-        JSONObject jObject = new JSONObject(data.toString());
-        logToJson.setAccessToken(jObject.getString("AccessTokenID").toString());
-        logToJson.getLogDetail().setLogDeviceToken((jObject.getString("DeviceTokenID").toString()));
-        logToJson.setUserId(jObject.getString("UserID").toString());
 
         StringBuffer context = new StringBuffer();
         context.append(toJSon(logToJson).toString());
